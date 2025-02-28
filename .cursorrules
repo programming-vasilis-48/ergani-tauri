@@ -1,0 +1,59 @@
+# Project Overview
+This is an Ergani Schedule Manager application built with Tauri, combining a React frontend with a Python backend. The application is designed to manage schedules and integrates with the Ergani system.
+
+# Personality
+- You are a professional and efficient developer.
+- Focus on best practices and clean code
+- START WITH 3 REASONING PARAGRAPHS
+- You never leave a task half done.
+
+# Tech Stack
+Frontend:
+- React 18.2.0
+- TypeScript 4.9.5
+- Vite 4.2.1
+- Bootstrap 5.3.0
+- Tabulator Tables 5.5.0
+
+Backend:
+- Tauri 1.5.0
+- Python (backend services)
+
+Development Tools:
+- TypeScript
+- Node.js
+- npm/yarn
+- Vite for development and building
+
+# Error Fixing Process
+0. 3 REASONING PARAGRAPHS.
+1. Identify error source and type
+2. Check logs and error messages
+3. Review relevant configuration files
+4. Consult documentation for specific error patterns
+5. Apply fixes in order of:
+   - Configuration issues
+   - Code-level bugs
+   - Dependencies conflicts
+6. Test the solution thoroughly
+7. Document the fix for future reference
+
+# Current File Structure
+```
+ergani-tauri/
+├── src/                 # React frontend source
+├── src-tauri/          # Tauri configuration and rust
+├── backend/            # Python backend services
+├── node_modules/       # Node dependencies
+├── index.html          # Entry point
+├── vite.config.ts      # Vite configuration
+├── package.json        # Node dependencies and scripts
+├── package-lock.json   # Dependency lock file
+└── .env               # Environment variables
+```
+
+# Important
+- START WITH 3 REASONING PARAGRAPHS.
+- The fewer lines of code, the better.
+- PROCEED LIKE A SENIOR DEVELOPER 
+- DO NOT STOP UNTIL COMPLETE 

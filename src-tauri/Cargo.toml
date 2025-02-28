@@ -1,0 +1,49 @@
+[package]
+name = "ergani-schedule-manager"
+version = "1.0.0"
+description = "Ergani Schedule Management Application"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+rust-version = "1.70"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5.0", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.5.0", features = [ "fs-read-dir", "fs-exists", "fs-read-file", "fs-write-file",
+    "dialog-all",
+    "path-all",
+    "http-all",
+    "shell-execute",
+    "shell-sidecar"
+] }
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort" # Strip expensive panic clean-up logic
+codegen-units = 1 # Compile crates one after another so the compiler can optimize better
+lto = true # Enables link to optimizations
+opt-level = "s" # Optimize for binary size
+strip = true # Remove debug symbols
+
+[package.metadata.bundle]
+name = "Ergani Schedule Manager"
+identifier = "com.ergani.schedule"
+icon = []
+resources = []
+copyright = ""
+category = "Utility"
+short_description = "Ergani Schedule Management Application"
+long_description = """
+A desktop application for managing Ergani schedules.
+"""

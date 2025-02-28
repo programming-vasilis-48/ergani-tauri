@@ -1,0 +1,69 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:5173",
+    "distDir": "../dist",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "Ergani Schedule Manager",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "execute": true,
+        "sidecar": true,
+        "scope": [
+          {
+            "name": "python",
+            "cmd": "python",
+            "args": true
+          }
+        ]
+      },
+      "fs": {
+        "all": false,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "exists": true,
+        "scope": ["**"]
+      },
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": true
+      },
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": ["http://localhost:3000/*"]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.ergani.schedule",
+      "icon": ["icons/icon.ico"],
+      "resources": []
+    },
+    "security": {
+      "csp": "default-src 'self' http://localhost:3000; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; img-src 'self' data:"
+    },
+    "windows": [
+      {
+        "title": "Ergani Schedule Manager",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true
+      }
+    ]
+  }
+} 

@@ -1,0 +1,208 @@
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --light-bg: #f8f9fa;
+  --dark-bg: #212529;
+  --dark-text: #343a40;
+  --light-text: #f8f9fa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.auth-section {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.dark-mode .auth-section {
+  background-color: #2c3338;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.processing-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.dark-mode .processing-section {
+  background-color: #2c3338;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.data-display {
+  margin-top: 2rem;
+}
+
+.table-container {
+  margin: 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dark-mode .table-container {
+  background-color: #2c3338;
+}
+
+.dark-mode .tabulator {
+  background-color: #2c3338;
+  border: 1px solid #444;
+}
+
+.dark-mode .tabulator-header {
+  background-color: #1a1d20;
+  border-bottom: 1px solid #444;
+}
+
+.dark-mode .tabulator-col {
+  background-color: #1a1d20;
+  color: var(--light-text);
+  border-right: 1px solid #444;
+}
+
+.dark-mode .tabulator-cell {
+  background-color: #2c3338;
+  color: var(--light-text);
+  border-right: 1px solid #444;
+}
+
+.dark-mode .tabulator-row {
+  background-color: #2c3338;
+  border-bottom: 1px solid #444;
+}
+
+.dark-mode .tabulator-row.tabulator-row-even {
+  background-color: #343a40;
+}
+
+.dark-mode .tabulator-footer {
+  background-color: #1a1d20;
+  border-top: 1px solid #444;
+}
+
+.dark-mode .form-control {
+  background-color: #2c3338;
+  border-color: #444;
+  color: var(--light-text);
+}
+
+.dark-mode .form-control:focus {
+  background-color: #343a40;
+  border-color: var(--primary-color);
+  color: var(--light-text);
+}
+
+.dark-mode .btn-outline-secondary {
+  color: var(--light-text);
+  border-color: var(--secondary-color);
+}
+
+.dark-mode .btn-outline-secondary:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+}
+
+.dark-mode .alert-danger {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.form-check {
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+.alert {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+#error-display {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2000;
+  min-width: 300px;
+  max-width: 500px;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode #error-display {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+#error-display .btn-close {
+  padding: 0.5rem;
+  margin: -0.5rem -0.5rem -0.5rem 0.5rem;
+}
+
+.dark-mode #error-display .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+#loading-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode #loading-indicator {
+  background-color: rgba(33, 37, 41, 0.9);
+} 
