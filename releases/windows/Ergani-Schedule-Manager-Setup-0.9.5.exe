@@ -1,0 +1,6 @@
+@echo off
+echo This is a placeholder for the Ergani Schedule Manager Windows installer
+echo Version: 0.9.5 (Previous Version)
+echo.
+echo In a real build, this would be the actual Windows installer executable.
+pause 
