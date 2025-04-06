@@ -1,11 +1,11 @@
-# TimeShift - Ergani Schedule Manager
+# Ergani Schedule Manager
 
 A modern desktop application for managing employee schedules and integrating with the Ergani system in Greece.
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/programming-vasilis-48/TimeShift)](https://github.com/programming-vasilis-48/TimeShift/releases)
-[![GitHub license](https://img.shields.io/github/license/programming-vasilis-48/TimeShift)](https://github.com/programming-vasilis-48/TimeShift/blob/main/LICENSE)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/programming-vasilis-48/ergani-tauri)](https://github.com/programming-vasilis-48/ergani-tauri/releases)
+[![GitHub license](https://img.shields.io/github/license/programming-vasilis-48/ergani-tauri)](https://github.com/programming-vasilis-48/ergani-tauri/blob/main/LICENSE)
 
-![TimeShift App Screenshot](../docs/images/screenshot.png)
+![Ergani Schedule Manager App Screenshot](../docs/images/screenshot.png)
 
 ## 🚀 Features
 
@@ -18,7 +18,7 @@ A modern desktop application for managing employee schedules and integrating wit
 
 ## 💻 Installation
 
-Visit our [download page](https://programming-vasilis-48.github.io/TimeShift/public/download.html) to get the latest version for your platform:
+Visit our [download page](https://programming-vasilis-48.github.io/ergani-tauri/public/download.html) to get the latest version for your platform:
 
 - **Windows**: Download and run the installer (.exe)
 - **macOS**: Download the .dmg file and drag to Applications
@@ -26,7 +26,7 @@ Visit our [download page](https://programming-vasilis-48.github.io/TimeShift/pub
 
 ## 📖 Documentation
 
-For detailed documentation, including setup guides and API references, visit our [documentation site](https://programming-vasilis-48.github.io/TimeShift/docs/).
+For detailed documentation, including setup guides and API references, visit our [documentation site](https://programming-vasilis-48.github.io/ergani-tauri/docs/).
 
 ## 🛠️ Development
 
@@ -40,8 +40,8 @@ For detailed documentation, including setup guides and API references, visit our
 
 ```bash
 # Clone the repository
-git clone https://github.com/programming-vasilis-48/TimeShift.git
-cd TimeShift
+git clone https://github.com/programming-vasilis-48/ergani-tauri.git
+cd ergani-tauri
 
 # Install dependencies
 npm install

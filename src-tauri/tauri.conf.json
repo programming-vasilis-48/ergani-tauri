@@ -79,7 +79,7 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://programming-vasilis-48.github.io/TimeShift/update.json"
+        "https://programming-vasilis-48.github.io/ergani-tauri/update.json"
       ],
       "dialog": true,
       "pubkey": "YOUR_UPDATER_PUBLIC_KEY_HERE"

@@ -13,7 +13,8 @@
     "build:macos": "node build.js macos",
     "build:linux": "node build.js linux",
     "make-installer": "makensis installer.nsi",
-    "release": "npm run build && npm run build:all"
+    "release": "npm run build && npm run build:all",
+    "setup-release-dirs": "node create-release-directories.js"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.0",

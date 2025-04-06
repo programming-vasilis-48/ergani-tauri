@@ -17,19 +17,19 @@ A desktop application for managing employee schedules and integrating with the E
 
 ### Windows
 
-1. Download the latest Windows installer from the [releases page](https://github.com/programming-vasilis-48/TimeShift/releases).
+1. Download the latest Windows installer from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
 2. Run the installer and follow the instructions.
 3. The application will be installed and a shortcut will be created on your desktop.
 
 ### macOS
 
-1. Download the latest macOS DMG file from the [releases page](https://github.com/programming-vasilis-48/TimeShift/releases).
+1. Download the latest macOS DMG file from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
 2. Open the DMG file and drag the application to your Applications folder.
 3. The first time you run the application, you may need to right-click the app and select "Open" to bypass macOS security restrictions.
 
 ### Linux
 
-1. Download the latest AppImage file from the [releases page](https://github.com/programming-vasilis-48/TimeShift/releases).
+1. Download the latest AppImage file from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
 2. Make the AppImage executable: `chmod +x Ergani-Schedule-Manager-*.AppImage`
 3. Run the AppImage file: `./Ergani-Schedule-Manager-*.AppImage`
 
@@ -45,8 +45,8 @@ A desktop application for managing employee schedules and integrating with the E
 
 1. Clone the repository:
    ```
-   git clone https://github.com/programming-vasilis-48/TimeShift.git
-   cd TimeShift
+   git clone https://github.com/programming-vasilis-48/ergani-tauri.git
+   cd ergani-tauri
    ```
 
 2. Install dependencies:
