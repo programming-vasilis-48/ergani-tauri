@@ -1,6 +1,7 @@
 import requests
 from dataclasses import dataclass
 from typing import Dict, Any, Tuple
+import logging
 
 class ApiError(Exception):
     """Base exception for API-related errors"""
@@ -102,8 +103,8 @@ def gen_info(usernameInfo, passwordInfo):
         api_client.authenticate(usernameInfo, passwordInfo, "02")
         generator = InfoGenerator(api_client)
         employer_data, branch_data = generator.execute()
-        print("Operation completed successfully")
+        logging.info("Operation completed successfully")
         return employer_data, branch_data
     except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        exit(1)
+        logging.error(f"Error occurred: {str(e)}")
+        raise

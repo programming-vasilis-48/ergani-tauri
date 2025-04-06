@@ -16,13 +16,8 @@ tauri-build = { version = "1.5.0", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.5.0", features = [ "fs-read-dir", "fs-exists", "fs-read-file", "fs-write-file",
-    "dialog-all",
-    "path-all",
-    "http-all",
-    "shell-execute",
-    "shell-sidecar"
-] }
+tauri = { version = "1.5.0", features = [ "updater", "fs-remove-file", "fs-remove-dir", "fs-create-dir", "shell-execute", "shell-sidecar", "path-all", "fs-write-file", "fs-read-dir", "http-all", "fs-read-file", "fs-exists",
+    "dialog-all"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

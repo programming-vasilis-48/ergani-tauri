@@ -1,37 +1,34 @@
 import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
+import { CombinedDataRow, SummaryDataRow, User } from '../types';
 
-export interface AppState {
-  data: {
-    combined: any[] | null;
-    summary: any[] | null;
-    user: any | null;
-    isProcessing: boolean;
-    error: string | null;
-    darkMode: boolean;
-  };
-  setState: (updates: Partial<AppState['data']>) => void;
+interface AppStateData {
+  combined: CombinedDataRow[] | null;
+  summary: SummaryDataRow[] | null;
+  user: User | null;
 }
 
-const initialState: AppState['data'] = {
+export interface AppState {
+  data: AppStateData;
+  setState: (updates: Partial<AppStateData>) => void;
+}
+
+const defaultData: AppStateData = {
   combined: null,
   summary: null,
-  user: null,
-  isProcessing: false,
-  error: null,
-  darkMode: false
+  user: null
 };
 
 const defaultContextValue: AppState = {
-  data: initialState,
+  data: defaultData,
   setState: () => undefined,
 };
 
 export const AppStateContext = createContext<AppState>(defaultContextValue);
 
 export function AppStateProvider({ children }: PropsWithChildren): JSX.Element {
-  const [state, setState] = useState<AppState['data']>(initialState);
+  const [state, setState] = useState<AppStateData>(defaultData);
 
-  const setStateWrapper = React.useCallback((updates: Partial<AppState['data']>) => {
+  const setStateWrapper = React.useCallback((updates: Partial<AppStateData>) => {
     setState(prev => ({ ...prev, ...updates }));
   }, []);
 

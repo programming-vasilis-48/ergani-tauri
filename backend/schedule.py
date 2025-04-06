@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 class DateHandler:
     @staticmethod
     def get_date_range(start_date: Optional[str] = None, end_date: Optional[str] = None) -> tuple:
-        # If no start_date given, use today’s month as before.
+        # If no start_date given, use today's month as before.
         if start_date is None:
             today = datetime.today()
             start_dt = today.replace(day=1)
@@ -43,10 +43,20 @@ class Config:
     
     @classmethod
     def setup(cls, output_dir):
-        cls.PATHS['downloads'] = os.path.join(os.getcwd(), 'temp_downloads')
-        cls.PATHS['output'] = os.path.join(os.getcwd(), output_dir)
+        # Use system temp directory for downloads
+        cls.PATHS['downloads'] = os.path.join(os.path.abspath(os.path.expanduser('~')), 'AppData', 'Local', 'Temp', 'ergani_downloads')
+        cls.PATHS['output'] = os.path.abspath(output_dir)
         os.makedirs(cls.PATHS['downloads'], exist_ok=True)
         os.makedirs(cls.PATHS['output'], exist_ok=True)
+        
+        # Ensure the download directory is empty
+        for file in os.listdir(cls.PATHS['downloads']):
+            file_path = os.path.join(cls.PATHS['downloads'], file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+            except Exception as e:
+                logging.warning(f"Error cleaning download directory: {e}")
 
 class FileManager:
     @staticmethod
@@ -67,7 +77,7 @@ class FileManager:
 class BrowserManager:
     def __init__(self):
         options = webdriver.ChromeOptions()
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
@@ -186,11 +196,27 @@ class Scheduler:
         final_filename = f"{prefix}_{datetime.now().strftime('%d%m')}.xlsx"
         final_path = os.path.join(Config.PATHS['output'], final_filename)
         try:
+            # Wait for download with increased timeout
             FileManager.wait_for_download(temp_path, Config.TIMEOUTS['download'])
-            FileManager.safe_remove(final_path)
+            
+            # Ensure the target directory exists
+            os.makedirs(os.path.dirname(final_path), exist_ok=True)
+            
+            # If target file exists, remove it first
+            if os.path.exists(final_path):
+                os.remove(final_path)
+                
+            # Move the file
             shutil.move(temp_path, final_path)
+            
+            # Verify the move was successful
+            if not os.path.exists(final_path):
+                raise FileNotFoundError(f"Failed to move file to {final_path}")
+                
             return final_path
         except Exception as e:
+            logging.error(f"Error handling download: {e}")
+            # Clean up temp file if it exists
             FileManager.safe_remove(temp_path)
             raise
 

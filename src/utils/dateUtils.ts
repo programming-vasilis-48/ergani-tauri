@@ -50,8 +50,8 @@ export function validateDateRange(startDate: string, endDate: string): void {
     throw new Error('Start date must be before or equal to end date');
   }
   
-  const today = new Date();
-  if (end > today) {
-    throw new Error('End date cannot be in the future');
-  }
+  //const today = new Date();
+  //if (end > today) {
+  //  throw new Error('End date cannot be in the future');
+  //}
 } 

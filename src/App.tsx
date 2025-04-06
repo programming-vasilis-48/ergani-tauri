@@ -11,22 +11,16 @@ import ErrorDisplay from './components/ErrorDisplay';
 import LoadingIndicator from './components/LoadingIndicator';
 
 function AppContent(): JSX.Element {
-  const { data: { darkMode, user }, setState } = useAppState();
+  const { data: { user }, setState } = useAppState();
   const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
-    // Load dark mode preference and user state
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    // Load user state
     const savedUser = localStorage.getItem('currentUser');
     
     setState({
-      darkMode: savedDarkMode,
       user: savedUser ? JSON.parse(savedUser) : null
     });
-
-    if (savedDarkMode) {
-      document.body.classList.add('dark-mode');
-    }
   }, []); // Empty dependency array means this runs once on mount
 
   // Save user state when it changes
@@ -38,13 +32,6 @@ function AppContent(): JSX.Element {
     }
   }, [user]);
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setState({ darkMode: newDarkMode });
-    localStorage.setItem('darkMode', String(newDarkMode));
-    document.body.classList.toggle('dark-mode', newDarkMode);
-  };
-
   const handleLogout = () => {
     setState({ user: null });
     localStorage.removeItem('currentUser');
@@ -54,23 +41,14 @@ function AppContent(): JSX.Element {
     <div className="container">
       <header>
         <h1>Ergani Schedule Manager</h1>
-        <div className="d-flex gap-2">
-          {user && (
-            <button
-              className="btn btn-outline-danger"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          )}
+        {user && (
           <button
-            id="toggleNightMode"
-            className="btn btn-outline-secondary"
-            onClick={toggleDarkMode}
+            className="btn btn-outline-danger"
+            onClick={handleLogout}
           >
-            {darkMode ? 'Light Mode' : 'Dark Mode'}
+            Logout
           </button>
-        </div>
+        )}
       </header>
 
       <ErrorDisplay />

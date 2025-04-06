@@ -1,6 +1,7 @@
 from openpyxl import Workbook
 from datetime import datetime
 from typing import List, Dict
+import logging
 
 def parse_iso_datetime(value):
     try:
@@ -56,5 +57,5 @@ def summary_and_save(data: List[Dict], filename) -> Dict:
                    v["missed_days"],
                    v["forgot_in_out_days"]])
     wb.save(filename)
-    print(f"Summary created: '{filename}'")
+    logging.info(f"Summary created: '{filename}'")
     return stats

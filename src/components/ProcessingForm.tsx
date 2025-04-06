@@ -4,10 +4,13 @@ import { handleAsyncOperation } from '../utils/errorHandling';
 import { DateRange, calculateDateRange, validateDateRange } from '../utils/dateUtils';
 import { invoke } from '@tauri-apps/api/tauri';
 import { open } from '@tauri-apps/api/dialog';
+import { readTextFile } from '@tauri-apps/api/fs';
 
 interface ProcessingResult {
-  combined_data: any[];
-  summary_data: any[];
+  combined_excel: string;
+  summary_excel: string;
+  combined_json: string;
+  summary_json: string;
 }
 
 export default function ProcessingForm(): JSX.Element {
@@ -65,10 +68,16 @@ export default function ProcessingForm(): JSX.Element {
         remove_dayoff: removeDayOff
       };
 
+      // Get file paths from Python
       const result = await invoke<ProcessingResult>('run_python', { params });
+      
+      // Read the JSON files
+      const combinedData = JSON.parse(await readTextFile(result.combined_json));
+      const summaryData = JSON.parse(await readTextFile(result.summary_json));
+
       setState({
-        combined: result.combined_data,
-        summary: result.summary_data,
+        combined: combinedData,
+        summary: summaryData,
         error: null
       });
     }, { errorMessage: 'Failed to process data' }, setState);

@@ -31,7 +31,18 @@
         "writeFile": true,
         "readDir": true,
         "exists": true,
-        "scope": ["**"]
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "scope": [
+          "**",
+          "$APPDATA/**",
+          "$LOCALAPPDATA/**",
+          "$TEMP/**",
+          "%APPDATA%/**",
+          "%LOCALAPPDATA%/**",
+          "%TEMP%/**"
+        ]
       },
       "path": {
         "all": true
@@ -42,7 +53,7 @@
       "http": {
         "all": true,
         "request": true,
-        "scope": ["http://localhost:3000/*"]
+        "scope": ["http://localhost:3000/*", "https://**"]
       }
     },
     "bundle": {
@@ -64,6 +75,14 @@
         "fullscreen": false,
         "decorations": true
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://programming-vasilis-48.github.io/TimeShift/update.json"
+      ],
+      "dialog": true,
+      "pubkey": "YOUR_UPDATER_PUBLIC_KEY_HERE"
+    }
   }
 } 

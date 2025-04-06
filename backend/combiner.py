@@ -56,6 +56,24 @@ def calculate_sunday_hours(planned_start: datetime, planned_end: datetime) -> fl
         day += timedelta(days=1)
     return total_sunday
 
+def calculate_holiday_hours(planned_start: datetime, planned_end: datetime) -> float:
+    """
+    Calculates the number of hours in the interval [planned_start, planned_end]
+    that fall on holidays (excluding Sundays which are handled separately).
+    """
+    total_holiday = 0.0
+    day = planned_start.date()
+    last_day = planned_end.date()
+    while day <= last_day:
+        if day.weekday() != 6:  # Not Sunday (handled separately)
+            hols = get_holidays(day.year)
+            if day in hols:
+                day_start = datetime.combine(day, time(0, 0))
+                day_end = datetime.combine(day, time(23, 59, 59))
+                total_holiday += compute_overlap(planned_start, planned_end, day_start, day_end)
+        day += timedelta(days=1)
+    return total_holiday
+
 # --- Data Model ---
 
 @dataclass
@@ -222,19 +240,29 @@ def calculate_planned_premium_hours(worker: Worker) -> Dict[str, float]:
     Calculate, from the planned clock in/out (without break adjustments):
       - Total planned hours,
       - Night hours (22:00–06:00; eligible for a 25% premium),
-      - Sunday hours (all hours on Sunday; eligible for a 75% premium).
-    Note: Hours may overlap (e.g., a Sunday night counts for both).
+      - Sunday hours (all hours on Sunday; eligible for a 75% premium),
+      - Holiday hours (all hours on holidays; eligible for a 100% premium).
+    Note: Hours may overlap (e.g., a holiday night counts for both).
     """
     if not (worker.planned_start and worker.planned_end):
-        return {"total_hours": 0.0, "night_hours": 0.0, "sunday_hours": 0.0}
+        return {"total_hours": 0.0, "night_hours": 0.0, "sunday_hours": 0.0, "holiday_hours": 0.0}
     total = (worker.planned_end - worker.planned_start).total_seconds() / 3600
     night = calculate_night_hours(worker.planned_start, worker.planned_end)
     sunday = calculate_sunday_hours(worker.planned_start, worker.planned_end)
-    return {"total_hours": total, "night_hours": night, "sunday_hours": sunday}
+    holiday = calculate_holiday_hours(worker.planned_start, worker.planned_end)
+    return {"total_hours": total, "night_hours": night, "sunday_hours": sunday, "holiday_hours": holiday}
 
 # --- Export to Excel (with sorting, additional columns, and row fills) ---
 def worker_to_dict(worker: Worker) -> Dict:
     premium = calculate_planned_premium_hours(worker)
+    # Determine if the worker's date is a holiday
+    is_holiday = False
+    worker_date = worker.date.date()
+    if worker_date:
+        hols = get_holidays(worker_date.year)
+        if worker_date in hols:
+            is_holiday = True
+
     base = {
         "AFM": worker.afm,
         "Branch": worker.branch,
@@ -245,9 +273,9 @@ def worker_to_dict(worker: Worker) -> Dict:
         "Planned End (ISO)": worker.planned_end.isoformat() if worker.planned_end else "",
         "Actual End (ISO)": worker.actual_end.isoformat() if worker.actual_end else "",
         "Break": worker.break_time,
-        "Schedule Start Date": worker.planned_start.strftime("%Y-%m-%d") if worker.planned_start else "",
+        "Schedule Start Date": worker.planned_start.strftime("%Y-%m-%d") if worker.planned_start else (worker.date.strftime("%Y-%m-%d") if worker.is_special else ""),
         "Schedule Start Time": worker.planned_start.strftime("%H:%M") if worker.planned_start else "",
-        "Schedule End Date": worker.planned_end.strftime("%Y-%m-%d") if worker.planned_end else "",
+        "Schedule End Date": worker.planned_end.strftime("%Y-%m-%d") if worker.planned_end else (worker.date.strftime("%Y-%m-%d") if worker.is_special else ""),
         "Schedule End Time": worker.planned_end.strftime("%H:%M") if worker.planned_end else "",
         "Actual Start Date": worker.actual_start.strftime("%Y-%m-%d") if worker.actual_start else "",
         "Actual Start Time": worker.actual_start.strftime("%H:%M") if worker.actual_start else "",
@@ -256,12 +284,15 @@ def worker_to_dict(worker: Worker) -> Dict:
         "Start Diff": worker.start_diff or "",
         "Finish Diff": worker.finish_diff or "",
         "Summary": worker.summary or "",
-        "Severity": worker.severity or ""
+        "Severity": worker.severity or "",
+        # Add the holiday flag
+        "isHoliday": is_holiday
     }
     # Add new premium columns:
     base["Planned Hours"] = round(premium["total_hours"], 2)
     base["Planned Night Hours"] = round(premium["night_hours"], 2)
     base["Planned Sunday Hours"] = round(premium["sunday_hours"], 2)
+    base["Planned Holiday Hours"] = round(premium["holiday_hours"], 2)
     return base
 
 def export_results(workers: List[Worker], output_path: str) -> None:
@@ -274,7 +305,7 @@ def export_results(workers: List[Worker], output_path: str) -> None:
         "Actual Start Date", "Actual Start Time",
         "Actual End Date", "Actual End Time",
         "Start Diff", "Finish Diff", "Summary", "Severity",
-        "Planned Hours", "Planned Night Hours", "Planned Sunday Hours"
+        "Planned Hours", "Planned Night Hours", "Planned Sunday Hours", "Planned Holiday Hours"
     ]
     wb = Workbook()
     ws = wb.active

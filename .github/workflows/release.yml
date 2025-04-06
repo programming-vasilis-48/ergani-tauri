@@ -1,0 +1,130 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-tauri:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest, macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: "Ergani Schedule Manager v__VERSION__"
+          releaseBody: "See the assets to download the application and install on your machine."
+          releaseDraft: true
+          prerelease: false
+          
+      - name: Upload release files to GitHub Pages
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-files
+          path: |
+            src-tauri/target/release/bundle/msi/*.msi
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/appimage/*.AppImage
+            
+  deploy-page:
+    needs: build-tauri
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release-files
+          path: releases
+          
+      - name: Organize release files
+        run: |
+          mkdir -p releases/windows
+          mkdir -p releases/macos
+          mkdir -p releases/linux
+          
+          # Move Windows installers
+          find releases -name "*.msi" -exec mv {} releases/windows/ \;
+          find releases -name "*.exe" -exec mv {} releases/windows/ \;
+          
+          # Move macOS installers
+          find releases -name "*.dmg" -exec mv {} releases/macos/ \;
+          
+          # Move Linux installers
+          find releases -name "*.AppImage" -exec mv {} releases/linux/ \;
+          find releases -name "*.deb" -exec mv {} releases/linux/ \;
+          
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          clean: false
+
+  update-release-json:
+    needs: build-tauri
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          
+      - name: Get tag version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        
+      - name: Update update.json
+        run: |
+          # Get current date in ISO format
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+          
+          # Create a temporary file
+          TMP_FILE=$(mktemp)
+          
+          # Read the current update.json file and update it
+          jq --arg version "$VERSION" \
+             --arg date "$NOW" \
+             '.latest.version = $version | .latest.pub_date = $date | .releases[0].version = $version | .releases[0].pub_date = $date' \
+             update.json > "$TMP_FILE"
+          
+          # Replace the original file with the updated content
+          mv "$TMP_FILE" update.json
+          
+      - name: Deploy update.json to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          target-folder: .
+          clean: false
+          files: update.json 
