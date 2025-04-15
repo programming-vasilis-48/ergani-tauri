@@ -11,27 +11,13 @@ A desktop application for managing employee schedules and integrating with the E
 - Generate reports and visualize employee work hours
 - Export schedules to various formats (PDF, Excel, CSV)
 - Dark and light theme support
-- Cross-platform: Windows, macOS, and Linux
+- Windows platform support
 
 ## Installation
-
-### Windows
 
 1. Download the latest Windows installer from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
 2. Run the installer and follow the instructions.
 3. The application will be installed and a shortcut will be created on your desktop.
-
-### macOS
-
-1. Download the latest macOS DMG file from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
-2. Open the DMG file and drag the application to your Applications folder.
-3. The first time you run the application, you may need to right-click the app and select "Open" to bypass macOS security restrictions.
-
-### Linux
-
-1. Download the latest AppImage file from the [releases page](https://github.com/programming-vasilis-48/ergani-tauri/releases).
-2. Make the AppImage executable: `chmod +x Ergani-Schedule-Manager-*.AppImage`
-3. Run the AppImage file: `./Ergani-Schedule-Manager-*.AppImage`
 
 ## Development
 
@@ -69,24 +55,10 @@ A desktop application for managing employee schedules and integrating with the E
    npm run build
    ```
 
-### Building Installers
-
-#### Windows
+### Building Installer
 
 ```
 npm run build:windows
-```
-
-#### macOS
-
-```
-npm run build:macos
-```
-
-#### Linux
-
-```
-npm run build:linux
 ```
 
 ## Usage
@@ -103,11 +75,9 @@ npm run build:linux
 
 ## Configuration
 
-The application stores configuration data in the following locations:
+The application stores configuration data in the following location:
 
-- Windows: `%APPDATA%\ergani-schedule-manager\config.json`
-- macOS: `~/Library/Application Support/ergani-schedule-manager/config.json`
-- Linux: `~/.config/ergani-schedule-manager/config.json`
+- `%APPDATA%\ergani-schedule-manager\config.json`
 
 ## Contributing
 
@@ -128,4 +98,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tauri](https://tauri.app/) - Framework for building desktop applications with web technologies
 - [React](https://reactjs.org/) - Frontend framework
 - [Python Flask](https://flask.palletsprojects.com/) - Backend API
-- [SQLite](https://www.sqlite.org/) - Database 
+- [SQLite](https://www.sqlite.org/) - Database

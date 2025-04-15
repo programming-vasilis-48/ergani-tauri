@@ -18,11 +18,9 @@ A modern desktop application for managing employee schedules and integrating wit
 
 ## 💻 Installation
 
-Visit our [download page](https://programming-vasilis-48.github.io/ergani-tauri/public/download.html) to get the latest version for your platform:
+Visit our [download page](https://programming-vasilis-48.github.io/ergani-tauri/public/download.html) to get the latest version:
 
 - **Windows**: Download and run the installer (.exe)
-- **macOS**: Download the .dmg file and drag to Applications
-- **Linux**: Download the AppImage
 
 ## 📖 Documentation
 
@@ -53,13 +51,11 @@ npm run dev
 ### Building
 
 ```bash
-# Build for all platforms
+# Build for Windows
 npm run build:all
 
-# Or build for specific platform
+# Or use the specific command
 npm run build:windows
-npm run build:macos
-npm run build:linux
 ```
 
 ## 🤝 Contributing
@@ -81,4 +77,4 @@ This project is licensed under the MIT License - see the [LICENSE](../LICENSE.tx
 - [Tauri](https://tauri.app/) - Framework for building desktop applications
 - [React](https://reactjs.org/) - Frontend framework
 - [Python Flask](https://flask.palletsprojects.com/) - Backend API
-- [SQLite](https://www.sqlite.org/) - Database 
+- [SQLite](https://www.sqlite.org/) - Database
